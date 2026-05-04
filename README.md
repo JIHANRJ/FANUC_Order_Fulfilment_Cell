@@ -53,6 +53,26 @@ This starts both the robot handler and chat interface together.
 - Edit `master_terminal_chat.py` to change robot IP/port
 - Runs in simulator mode if robot is unreachable
 
+### Voice Chat (faster-whisper optimized)
+
+```bash
+python3 voice_engine/voice_chat.py
+```
+
+Choose mode `1` for voice input. Features:
+- **Fast transcription** — faster-whisper with int8 quantization (~1 sec/transcription on M1/M2)
+- **Continuous listening** — Microphone active in background
+- **Silence detection** — Automatically sends audio when silence detected
+- **Multi-language** — English by default (configurable)
+
+Example:
+```
+[VOICE] Listening for voice...
+You: "I want three coffees and two croissants"
+[VOICE] Transcribed: I want three coffees and two croissants
+CRX: Order confirmed! [JSON response with register writes]
+```
+
 ### Advanced: Separate Terminals
 
 **Terminal 1 - Robot Handler (watches for register writes):**
@@ -98,3 +118,36 @@ Edit `LLM_engine/precontext.txt` to customize:
 - `Robot_handler/robot_handler.py` — Register handler and OPC UA client
 - `Robot_handler/fanuc_register_opcua.py` — FANUC OPC UA library
 - `Robot_handler/current_cart.json` — Current order state
+- `voice_engine/voice_input.py` — faster-whisper speech-to-text with silence detection
+- `voice_engine/voice_chat.py` — Voice-enabled chat interface
+- `test_voice_integration.py` — Integration test for voice engine
+
+## Voice Engine
+
+The voice engine uses **faster-whisper** (OpenAI Whisper optimized for speed) with int8 quantization for M1/M2 Macs.
+
+### Performance
+
+- **Tiny model** — ~1 sec transcription time (39MB)
+- **Base model** — ~2 sec transcription time, better accuracy (140MB)
+- **5-10x faster** than openai-whisper on ARM64
+
+### Features
+
+- Continuous microphone listening with silence-based triggers
+- Float32 audio input at 16kHz sample rate
+- Automatic amplitude threshold detection
+- Low-latency transcription (< 2 seconds typical)
+- No internet required (fully offline)
+
+### Testing
+
+```bash
+# Integration test
+python3 test_voice_integration.py
+
+# Run voice chat
+python3 voice_engine/voice_chat.py
+```
+
+See [voice_engine/README.md](voice_engine/README.md) for detailed documentation.

@@ -1,0 +1,86 @@
+# Voice Engine
+
+Speech-to-text transcription using **faster-whisper** (optimized Whisper). Continuously listens for voice commands and transcribes them in real-time with high speed.
+
+## Files
+
+- **voice_input.py** — Core voice input handler with faster-whisper integration
+- **voice_chat.py** — Voice-enabled chat interface
+- **__init__.py** — Package initialization
+
+## Usage
+
+### Voice Chat Only
+
+```bash
+cd voice_engine
+python3 voice_chat.py
+```
+
+Choose mode `1` for voice input. The system will listen for speech, transcribe it with faster-whisper, and send it to the LLM.
+
+## Features
+
+- **🚀 Fast transcription** — Uses faster-whisper with ctranslate2 backend (5-10x faster than openai-whisper!)
+- **Int8 quantization** — Optimized model quantization for M1/M2 Macs
+- **Real-time listening** — Listens continuously on the microphone
+- **Auto-detection** — Detects speech automatically via amplitude threshold
+- **Silence-based trigger** — Sends audio for transcription after silence is detected (0.5s by default)
+- **Low latency** — "tiny" model: ~1 sec per transcription on M1/M2
+- **Better accuracy** — "base" model: ~2 sec per transcription, significantly more accurate
+
+## How It Works
+
+1. Microphone listens continuously in background thread
+2. Audio chunks are buffered as they arrive (float32 format)
+3. When 0.5+ second of silence is detected after speech, audio is sent to faster-whisper
+4. Faster-whisper transcribes using ctranslate2 backend (optimized for ARM64)
+5. Transcribed text is returned to chat
+6. Chat sends order to handler → robot registers written
+
+## Performance
+
+| Model | Speed (M1/M2) | Accuracy | Size |
+|-------|---------------|----------|------|
+| tiny  | ~1 sec        | Good     | 39M  |
+| base  | ~2 sec        | Better   | 140M |
+
+Faster-whisper with int8 quantization is **5-10x faster** than openai-whisper on ARM64!
+
+## Customization
+
+Edit **voice_input.py**:
+
+```python
+# Change Whisper model (bigger = more accurate, slower)
+voice_input = VoiceInput(model="base", use_wake_word=False)
+
+# Adjust silence detection
+SILENCE_THRESHOLD = 0.02  # amplitude threshold (higher = more sensitive)
+SILENCE_DURATION = 0.5    # seconds of silence before transcribe
+MIN_DURATION = 0.3        # minimum audio duration to transcribe
+```
+
+## Dependencies
+
+- `faster-whisper` - Fast Whisper inference
+- `ctranslate2` - ONNX backend for inference
+- `onnxruntime` - ONNX runtime (ARM64 optimized)
+- `sounddevice` - Microphone input
+- `numpy` - Audio processing
+
+## Wake Word Detection (Optional)
+
+Wake word detection using Porcupine requires a free API key from [console.picovoice.ai](https://console.picovoice.ai). Currently disabled by default. To enable:
+
+```python
+# Get free access key from console.picovoice.ai
+voice_input = VoiceInput(model="tiny", use_wake_word=True)
+```
+
+### Requirements
+
+- `openai-whisper` — Speech-to-text model
+- `sounddevice` — Microphone input
+- `numpy` — Audio processing
+- `torch` — Whisper dependency
