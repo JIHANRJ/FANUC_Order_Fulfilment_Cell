@@ -298,6 +298,7 @@ class FanucBridge:
                 output = self.engine_proc.stdout.readline().strip()
                 if not output:
                     raise ValueError("LLM engine returned no output")
+                print(f"[LLM RAW] {output}", flush=True)
                 payload = parse_llm_payload(output)
             except Exception as error:
                 self.broadcast({"type": "engine_error", "data": str(error)})
