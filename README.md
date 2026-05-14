@@ -82,6 +82,12 @@ python3 master_terminal_chat.py --voice --voice-model tiny --frontend
 - The browser mic is disabled so the voice button does not depend on Firefox/browser SpeechRecognition.
 - Wake-word mode is optional and may require additional setup depending on the current voice backend configuration.
 
+**Voice Tuning & Settings:**
+- Use `voice_engine/voice_tuner.py` to discover optimal microphone and transcription thresholds for your setup
+- Tuned settings are automatically saved to `voice_settings.json` (use `--save-settings` flag)
+- Saved settings persist across system restarts and auto-load when running `--voice` mode
+- CLI flags override saved settings, allowing per-run customization without changing defaults
+
 See [voice_engine/README.md](voice_engine/README.md) for the voice subsystem details.
 
 ## Common Commands

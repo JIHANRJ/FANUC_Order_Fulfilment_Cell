@@ -31,7 +31,24 @@ The tuner records two samples locally:
 - ambient noise
 - a normal spoken command
 
-It prints measured RMS/peak values, local transcription confidence, and a suggested command you can paste into `master_terminal_chat.py`.
+It prints measured RMS/peak values, local transcription confidence, visualizes audio waveforms and settings, and optionally saves the tuned parameters to a JSON file.
+
+**Recommended workflow:**
+1. Run `python3 voice_tuner.py` to test your microphone
+2. Adjust microphone gain in system settings if needed
+3. Use command-line flags to experiment: `python3 voice_tuner.py --silence-threshold 0.003 --amplitude-accept-threshold 0.003`
+4. When you find settings that work well, save them: `python3 voice_tuner.py --save-settings`
+5. Settings are now persisted to `voice_settings.json` and will auto-load on future runs
+
+**Tuner command-line options:**
+- `--silence-threshold FLOAT` — amplitude threshold for silence detection
+- `--amplitude-accept-threshold FLOAT` — minimum RMS amplitude before transcription
+- `--silence-duration FLOAT` — seconds of silence before sending audio
+- `--min-duration FLOAT` — minimum audio duration to transcribe
+- `--confidence-logprob-threshold FLOAT` — minimum model confidence score
+- `--save-settings` — save discovered settings to `voice_settings.json`
+- `--show-previous` — display previously saved settings
+- `--no-graph` — skip matplotlib visualization
 
 ## Features
 
@@ -71,6 +88,31 @@ You can adjust thresholds from the command line via `master_terminal_chat.py --v
 | base  | ~2 sec        | Better   | 140M |
 
 Faster-whisper with int8 quantization is **5-10x faster** than openai-whisper on ARM64!
+
+## Settings Persistence
+
+Once you tune the voice parameters using `voice_tuner.py`, your optimal settings are automatically saved to `voice_settings.json` (when using `--save-settings`). These settings persist across system restarts:
+
+- **Auto-load on startup:** When you run `master_terminal_chat.py --voice`, it automatically loads saved settings as defaults
+- **Override with command-line flags:** CLI flags still take precedence if provided, e.g., `python3 master_terminal_chat.py --voice --silence-threshold 0.010`
+- **View previously saved settings:** Use `voice_tuner.py --show-previous` to see what parameters were last saved
+
+**Typical workflow:**
+```bash
+# 1. Discover optimal settings
+python3 voice_tuner.py --silence-threshold 0.003 --amplitude-accept-threshold 0.003
+
+# 2. Save them
+python3 voice_tuner.py --save-settings
+
+# 3. On next system start, settings auto-apply:
+python3 ../master_terminal_chat.py --voice --frontend
+# Loads: silence_threshold=0.003, amplitude_accept_threshold=0.003, etc.
+
+# 4. Or override a single setting:
+python3 ../master_terminal_chat.py --voice --silence-threshold 0.010
+# Loads saved model and other settings, but uses CLI silence-threshold
+```
 
 ## Customization
 

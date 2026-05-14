@@ -14,6 +14,7 @@ import argparse
 import socket
 import re
 from pathlib import Path
+from voice_engine import voice_settings
 
 # ANSI colors
 WHITE = "\033[97m"
@@ -39,12 +40,12 @@ ROBOT_IP = "172.168.10.2"
 ROBOT_PORT = 4880
 
 # Voice defaults
-DEFAULT_VOICE_MODEL = "tiny"
-DEFAULT_SILENCE_THRESHOLD = 0.010
-DEFAULT_SILENCE_DURATION = 0.5
+DEFAULT_VOICE_MODEL = "base"
+DEFAULT_SILENCE_THRESHOLD = 0.030
+DEFAULT_SILENCE_DURATION = 0.2
 DEFAULT_MIN_DURATION = 0.3
 DEFAULT_MIN_TRANSCRIPT_CHARS = 4
-DEFAULT_AMPLITUDE_ACCEPT_THRESHOLD = 0.015
+DEFAULT_AMPLITUDE_ACCEPT_THRESHOLD = 0.050
 DEFAULT_CONFIDENCE_LOGPROB_THRESHOLD = -0.9
 
 # Global process handles
@@ -55,15 +56,27 @@ frontend_server_proc = None
 
 
 def parse_args():
+    # Load saved voice settings if they exist
+    saved_settings = voice_settings.load_settings() or {}
+    
+    # Use saved settings as defaults, or fall back to hardcoded defaults
+    default_voice_model = saved_settings.get("voice_model", DEFAULT_VOICE_MODEL)
+    default_silence_threshold = saved_settings.get("silence_threshold", DEFAULT_SILENCE_THRESHOLD)
+    default_silence_duration = saved_settings.get("silence_duration", DEFAULT_SILENCE_DURATION)
+    default_min_duration = saved_settings.get("min_duration", DEFAULT_MIN_DURATION)
+    default_min_transcript_chars = saved_settings.get("min_transcript_chars", DEFAULT_MIN_TRANSCRIPT_CHARS)
+    default_amplitude_accept_threshold = saved_settings.get("amplitude_accept_threshold", DEFAULT_AMPLITUDE_ACCEPT_THRESHOLD)
+    default_confidence_logprob_threshold = saved_settings.get("confidence_logprob_threshold", DEFAULT_CONFIDENCE_LOGPROB_THRESHOLD)
+    
     parser = argparse.ArgumentParser(description="Master terminal for FANUC control")
     parser.add_argument("--voice", action="store_true", help="Launch voice chat instead of text chat")
-    parser.add_argument("--voice-model", default=DEFAULT_VOICE_MODEL, help="faster-whisper model size")
-    parser.add_argument("--silence-threshold", type=float, default=DEFAULT_SILENCE_THRESHOLD, help="Amplitude threshold for silence detection")
-    parser.add_argument("--silence-duration", type=float, default=DEFAULT_SILENCE_DURATION, help="Seconds of silence before transcription")
-    parser.add_argument("--min-duration", type=float, default=DEFAULT_MIN_DURATION, help="Minimum audio duration before transcription")
-    parser.add_argument("--min-transcript-chars", type=int, default=DEFAULT_MIN_TRANSCRIPT_CHARS, help="Minimum transcript length accepted")
-    parser.add_argument("--amplitude-accept-threshold", type=float, default=DEFAULT_AMPLITUDE_ACCEPT_THRESHOLD, help="Minimum RMS amplitude accepted")
-    parser.add_argument("--confidence-logprob-threshold", type=float, default=DEFAULT_CONFIDENCE_LOGPROB_THRESHOLD, help="Minimum avg_logprob accepted")
+    parser.add_argument("--voice-model", default=default_voice_model, help="faster-whisper model size")
+    parser.add_argument("--silence-threshold", type=float, default=default_silence_threshold, help="Amplitude threshold for silence detection")
+    parser.add_argument("--silence-duration", type=float, default=default_silence_duration, help="Seconds of silence before transcription")
+    parser.add_argument("--min-duration", type=float, default=default_min_duration, help="Minimum audio duration before transcription")
+    parser.add_argument("--min-transcript-chars", type=int, default=default_min_transcript_chars, help="Minimum transcript length accepted")
+    parser.add_argument("--amplitude-accept-threshold", type=float, default=default_amplitude_accept_threshold, help="Minimum RMS amplitude accepted")
+    parser.add_argument("--confidence-logprob-threshold", type=float, default=default_confidence_logprob_threshold, help="Minimum avg_logprob accepted")
     parser.add_argument("--use-wake-word", action="store_true", help="Enable wake word mode if Picovoice key is configured")
     parser.add_argument("--frontend", action="store_true", help="Launch Fanuc-frontend connected to the robot/LLM backend")
     parser.add_argument("--frontend-host", default="127.0.0.1", help="Frontend/backend bind host")
