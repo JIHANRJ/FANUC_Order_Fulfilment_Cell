@@ -315,14 +315,11 @@ class FanucBridge:
             self.broadcast({"type": "engine_error", "data": "Robot handler pipe is not available."})
             return
         try:
-            fd = os.open(PIPE_PATH, os.O_WRONLY | os.O_NONBLOCK)
-            with os.fdopen(fd, "w") as pipe:
+            with open(PIPE_PATH, "a", encoding="utf-8") as pipe:
                 pipe.write(json.dumps(payload) + "\n")
                 pipe.flush()
         except OSError as error:
             self.broadcast({"type": "engine_error", "data": f"Robot handler is not connected: {error}"})
-        except BrokenPipeError:
-            self.broadcast({"type": "engine_error", "data": "Robot handler disconnected."})
 
     def broadcast(self, message: Dict) -> None:
         encoded = json.dumps(message)

@@ -64,7 +64,7 @@ python3 master_terminal_chat.py --voice --voice-model tiny --frontend
 - `fanuc_frontend_backend.py` - WebSocket backend for the browser frontend
 - `LLM_engine/LLM_engine.py` - Ollama-backed JSON response generator
 - `LLM_engine/chat.py` - standalone text chat wrapper for the LLM engine
-- `Robot_handler/robot_handler.py` - FIFO consumer and FANUC register writer
+- `Robot_handler/robot_handler.py` - handler/file consumer and FANUC register writer
 - `voice_engine/voice_chat.py` - voice/text chat wrapper around the LLM engine
 - `voice_engine/voice_tuner.py` - microphone threshold tuning helper
 - `test_voice_integration.py` - voice dependency and model smoke test
@@ -147,7 +147,7 @@ python3 fanuc_frontend_backend.py --host 127.0.0.1 --port 9876 --auto-start
 - `--watch` - read JSON lines from `robot_handler.pipe`
 - `--robot-ip` - connect to a FANUC robot by IP
 - `--robot-port` - OPC UA port, default: `4880`
-- `--pipe` - FIFO path, default: `Robot_handler/robot_handler.pipe`
+- `--pipe` - handler file path, default: `Robot_handler/robot_handler.pipe`
 - `--cart` - cart file path, default: `Robot_handler/current_cart.json`
 
 ## First-Run Checklist

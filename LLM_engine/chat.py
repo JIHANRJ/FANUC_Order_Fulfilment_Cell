@@ -24,17 +24,11 @@ def send_to_handler(payload: dict) -> None:
         return
 
     try:
-        fd = os.open(HANDLER_PIPE, os.O_WRONLY | os.O_NONBLOCK)
-    except OSError:
-        print(f"{RED}[Handler] Live terminal not connected. Start: python3 Robot_handler/robot_handler.py --watch{RESET}")
-        return
-
-    try:
-        with os.fdopen(fd, "w") as pipe:
+        with open(HANDLER_PIPE, "a", encoding="utf-8") as pipe:
             pipe.write(json.dumps(payload) + "\n")
             pipe.flush()
-    except BrokenPipeError:
-        print(f"{RED}[Handler] The live handler disconnected. Restart it in another terminal.{RESET}")
+    except OSError as exc:
+        print(f"{RED}[Handler] Live terminal is unavailable: {exc}{RESET}")
 
 
 def main():

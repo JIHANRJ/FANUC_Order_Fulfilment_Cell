@@ -11,6 +11,12 @@ This project is designed to run from a fresh clone with a local Python environme
    bash setup.sh
    ```
 
+   On Windows PowerShell, run the native bootstrap script instead:
+
+   ```powershell
+   .\setup.ps1
+   ```
+
 3. Start Ollama in another terminal:
 
    ```bash
@@ -39,5 +45,6 @@ This project is designed to run from a fresh clone with a local Python environme
 ## Notes
 
 - The frontend ships prebuilt in `Fanuc-frontend/dist`, so no npm build step is required for normal use.
+- The handler transport is an append-only project file, so the main workflow runs on Windows without needing a POSIX FIFO.
 - If `sounddevice` fails to import, the machine may be missing system audio libraries. Install the OS-level audio packages and rerun `bash setup.sh`.
 - If Ollama is not installed yet, install it separately before starting the app.

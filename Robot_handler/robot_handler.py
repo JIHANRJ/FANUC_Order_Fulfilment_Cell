@@ -194,7 +194,10 @@ def process_json_line(raw_line: str, register_handler: Optional = None, current_
 
 def watch_pipe(pipe_path: str = FIFO_PATH, current_cart_path: str = CURRENT_CART_PATH, robot_ip: Optional[str] = None):
     if not os.path.exists(pipe_path):
-        os.mkfifo(pipe_path)
+        with open(pipe_path, "a", encoding="utf-8"):
+            pass
+
+    position = os.path.getsize(pipe_path)
 
     register_handler = None
     if robot_ip:
@@ -210,8 +213,17 @@ def watch_pipe(pipe_path: str = FIFO_PATH, current_cart_path: str = CURRENT_CART
     print(f"{RED}[DEBUG] Waiting for JSON on {pipe_path}{RESET}", flush=True)
     while True:
         try:
-            with open(pipe_path, "r") as pipe_handle:
-                for raw_line in pipe_handle:
+            current_size = os.path.getsize(pipe_path)
+            if current_size < position:
+                position = 0
+
+            with open(pipe_path, "r", encoding="utf-8") as pipe_handle:
+                pipe_handle.seek(position)
+                while True:
+                    raw_line = pipe_handle.readline()
+                    if not raw_line:
+                        position = pipe_handle.tell()
+                        break
                     process_json_line(raw_line, register_handler, current_cart_path=current_cart_path)
         except Exception as e:
             print(f"{RED}[ERROR] Pipe error: {e}{RESET}", flush=True)
