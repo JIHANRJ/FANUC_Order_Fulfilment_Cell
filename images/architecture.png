@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .box { fill: #f0f0f0; stroke: #333; stroke-width: 2; }
+      .title { font-size: 16px; font-weight: bold; fill: #333; }
+      .text { font-size: 13px; fill: #555; }
+      .layer-user { fill: #e3f2fd; stroke: #1976d2; }
+      .layer-app { fill: #e8f5e9; stroke: #388e3c; }
+      .layer-robot { fill: #fff3e0; stroke: #f57c00; }
+      .layer-hardware { fill: #fce4ec; stroke: #c2185b; }
+      .layer-llm { fill: #f3e5f5; stroke: #7b1fa2; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#fafafa"/>
+  
+  <!-- User Layer -->
+  <g id="user-layer">
+    <rect x="20" y="20" width="220" height="200" class="layer-user box" rx="10"/>
+    <text x="50" y="50" class="title">User Layer</text>
+    
+    <!-- Terminal Chat -->
+    <rect x="35" y="70" width="190" height="40" class="box" rx="5"/>
+    <text x="45" y="90" class="text">Terminal Chat</text>
+    <text x="45" y="105" class="text">Text-based input</text>
+    
+    <!-- Web Frontend -->
+    <rect x="35" y="125" width="190" height="40" class="box" rx="5"/>
+    <text x="45" y="145" class="text">Web Frontend</text>
+    <text x="45" y="160" class="text">Browser UI</text>
+    
+    <!-- Voice Input -->
+    <rect x="35" y="180" width="190" height="35" class="box" rx="5"/>
+    <text x="45" y="200" class="text">Voice Input</text>
+  </g>
+  
+  <!-- Application Layer -->
+  <g id="app-layer">
+    <rect x="280" y="20" width="220" height="200" class="layer-app box" rx="10"/>
+    <text x="310" y="50" class="title">Application Layer</text>
+    
+    <!-- Master Controller -->
+    <rect x="295" y="70" width="190" height="40" class="box" rx="5"/>
+    <text x="305" y="90" class="text">Master Controller</text>
+    <text x="305" y="105" class="text">master_terminal_chat.py</text>
+    
+    <!-- Frontend Backend -->
+    <rect x="295" y="125" width="190" height="40" class="box" rx="5"/>
+    <text x="305" y="145" class="text">Frontend Backend</text>
+    <text x="305" y="160" class="text">WebSocket Bridge</text>
+    
+    <!-- Voice Engine -->
+    <rect x="295" y="180" width="190" height="35" class="box" rx="5"/>
+    <text x="305" y="200" class="text">Voice Engine</text>
+  </g>
+  
+  <!-- LLM Layer -->
+  <g id="llm-layer">
+    <rect x="540" y="20" width="220" height="200" class="layer-llm box" rx="10"/>
+    <text x="570" y="50" class="title">LLM Processing Layer</text>
+    
+    <!-- Prompt Context -->
+    <rect x="555" y="70" width="190" height="40" class="box" rx="5"/>
+    <text x="565" y="90" class="text">Prompt Context</text>
+    <text x="565" y="105" class="text">precontext.txt</text>
+    
+    <!-- LLM Engine -->
+    <rect x="555" y="125" width="190" height="40" class="box" rx="5"/>
+    <text x="565" y="145" class="text">LLM Engine</text>
+    <text x="565" y="160" class="text">JSON Generator</text>
+    
+    <!-- Ollama -->
+    <rect x="555" y="180" width="190" height="35" class="box" rx="5"/>
+    <text x="565" y="200" class="text">Ollama - Llama3</text>
+  </g>
+  
+  <!-- Robot Control Layer -->
+  <g id="robot-layer">
+    <rect x="800" y="20" width="220" height="200" class="layer-robot box" rx="10"/>
+    <text x="830" y="50" class="title">Robot Control Layer</text>
+    
+    <!-- Robot Handler -->
+    <rect x="815" y="70" width="190" height="40" class="box" rx="5"/>
+    <text x="825" y="90" class="text">Robot Handler</text>
+    <text x="825" y="105" class="text">robot_handler.py</text>
+    
+    <!-- OPC-UA Interface -->
+    <rect x="815" y="125" width="190" height="40" class="box" rx="5"/>
+    <text x="825" y="145" class="text">OPC-UA Interface</text>
+    <text x="825" y="160" class="text">Register Manager</text>
+    
+    <!-- Robot State -->
+    <rect x="815" y="180" width="190" height="35" class="box" rx="5"/>
+    <text x="825" y="200" class="text">Robot State</text>
+  </g>
+  
+  <!-- Hardware Layer -->
+  <g id="hardware-layer">
+    <rect x="1060" y="20" width="120" height="200" class="layer-hardware box" rx="10"/>
+    <text x="1070" y="50" class="title">Hardware</text>
+    
+    <!-- FANUC Robot -->
+    <rect x="1075" y="70" width="90" height="140" class="box" rx="5"/>
+    <text x="1085" y="100" class="text">FANUC</text>
+    <text x="1085" y="120" class="text">Robot</text>
+    <text x="1080" y="140" class="text">OPC UA</text>
+    <text x="1080" y="155" class="text">:4880</text>
+  </g>
+  
+  <!-- Arrows showing data flow -->
+  <!-- User to App -->
+  <path d="M 240 120 L 280 120" stroke="#1976d2" stroke-width="2" fill="none" marker-end="url(#arrowblue)"/>
+  
+  <!-- App to LLM -->
+  <path d="M 500 120 L 540 120" stroke="#388e3c" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  
+  <!-- LLM to Robot -->
+  <path d="M 760 120 L 800 120" stroke="#f57c00" stroke-width="2" fill="none" marker-end="url(#arroworange)"/>
+  
+  <!-- Robot to Hardware -->
+  <path d="M 1020 120 L 1060 120" stroke="#c2185b" stroke-width="2" fill="none" marker-end="url(#arrowred)"/>
+  
+  <!-- Feedback arrows -->
+  <path d="M 1020 140 L 800 140" stroke="#7b1fa2" stroke-width="2" fill="none" stroke-dasharray="5,5" marker-end="url(#arrowpurple)"/>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#1976d2"/>
+    </marker>
+    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#388e3c"/>
+    </marker>
+    <marker id="arroworange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f57c00"/>
+    </marker>
+    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#c2185b"/>
+    </marker>
+    <marker id="arrowpurple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7b1fa2"/>
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g id="legend" transform="translate(20, 260)">
+    <text x="0" y="0" class="title">Data Flow</text>
+    
+    <line x1="0" y1="20" x2="30" y2="20" stroke="#1976d2" stroke-width="2" marker-end="url(#arrowblue)"/>
+    <text x="40" y="25" class="text">User Input</text>
+    
+    <line x1="150" y1="20" x2="180" y2="20" stroke="#388e3c" stroke-width="2" marker-end="url(#arrowgreen)"/>
+    <text x="190" y="25" class="text">Application Flow</text>
+    
+    <line x1="380" y1="20" x2="410" y2="20" stroke="#f57c00" stroke-width="2" marker-end="url(#arroworange)"/>
+    <text x="420" y="25" class="text">LLM Data Flow</text>
+    
+    <line x1="610" y1="20" x2="640" y2="20" stroke="#c2185b" stroke-width="2" marker-end="url(#arrowred)"/>
+    <text x="650" y="25" class="text">Robot Control Flow</text>
+    
+    <line x1="870" y1="20" x2="900" y2="20" stroke="#7b1fa2" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowpurple)"/>
+    <text x="910" y="25" class="text">Bidirectional Flow</text>
+  </g>
+  
+  <!-- Description box -->
+  <g id="description" transform="translate(20, 380)">
+    <rect x="0" y="0" width="1160" height="300" fill="#fafafa" stroke="#ccc" stroke-width="1" rx="5"/>
+    <text x="15" y="25" class="title">System Workflow</text>
+    
+    <text x="15" y="55" class="text">1. User Input: Commands enter through terminal, web browser, or voice microphone</text>
+    <text x="15" y="75" class="text">2. Master Controller: Routes requests to appropriate processing engine based on input type</text>
+    <text x="15" y="95" class="text">3. LLM Processing: Ollama Llama3 model analyzes natural language and generates structured JSON cart operations</text>
+    <text x="15" y="115" class="text">4. Robot Handler: Converts JSON instructions into FANUC register commands via OPC UA protocol</text>
+    <text x="15" y="135" class="text">5. Robot Execution: FANUC CRX robot reads registers and performs physical item retrieval/placement tasks</text>
+    <text x="15" y="155" class="text">6. State Synchronization: Robot state updates propagate back through the system and update current_cart.json</text>
+    <text x="15" y="175" class="text">7. Feedback Loop: Status information returns to user interface for real-time monitoring</text>
+    
+    <text x="15" y="210" class="text">Key Components:</text>
+    <text x="15" y="230" class="text">• Master Orchestrator: Central command router and session manager</text>
+    <text x="15" y="250" class="text">• LLM Engine: Transforms natural language to actionable cart state updates</text>
+    <text x="15" y="270" class="text">• Robot Handler: Manages OPC UA communication and register synchronization</text>
+  </g>
+</svg>
