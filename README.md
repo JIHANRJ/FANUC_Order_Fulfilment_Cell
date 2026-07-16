@@ -4,6 +4,7 @@ A comprehensive voice-controlled robotic order fulfillment solution powered by L
 
 **Developed by:** FANUC India Pvt Ltd, Bangalore Tech Center  
 **Initiative:** Physical AI Research & Development
+**SOP:** ![Read SOP](FANUC_Ordfil_SOP.docx)
 
 ---
 
