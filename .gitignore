@@ -53,3 +53,5 @@ Robot_handler/robot_handler.pipe
 # Allow tracking frontend build
 !Fanuc-frontend/dist/
 !Fanuc-frontend/dist/**
+
+Order_Fulfillment_Voice_demo.mp4
