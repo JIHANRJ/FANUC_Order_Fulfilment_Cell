@@ -1,6 +1,10 @@
-# FANUC LLM Voice-Controlled Order Fulfillment System
+<p align="center">
+  <a href="https://example.com/Order_Fulfilment_Voice_demo.mp4">
+    <img src="images/OrdFil_Logo.png" alt="FANUC Order Fulfillment logo" width="220" />
+  </a>
+</p>
 
-[![FANUC Order Fulfillment Banner](images/FANUC_India_Blr_OrdFil_Cell.jpeg)](https://example.com/Order_Fulfilment_Voice_demo.mp4)
+# FANUC LLM Voice-Controlled Order Fulfillment System
 
 A comprehensive voice-controlled robotic order fulfillment solution powered by Large Language Models (LLM). This system enables natural language ordering and automated item management using FANUC collaborative robots integrated with OPC UA communication and AI-driven voice processing.
 
@@ -8,12 +12,14 @@ A comprehensive voice-controlled robotic order fulfillment solution powered by L
 **Initiative:** Physical AI Research & Development
 **SOP:** [FANUC_OrdFil_SOP.docx](FANUC_Ordfil_SOP.docx)
 
-**Demo Video attached in the Release!**
+<sub>Shared by Rakesh — this file and its assets are intended to be shared together.</sub>
+
+**Demo Video and steps to run the cell attached in the Release!**
 
 ---
 
 ## Overview
-
+[![FANUC Order Fulfillment Banner](images/FANUC_India_Blr_OrdFil_Cell.jpeg)]
 The FANUC Order Fulfillment Cell is an intelligent robotic system that combines:
 - **Natural Language Processing** - Voice and text-based order input via LLM (Ollama)
 - **Robotic Automation** - FANUC CRX robot control via OPC UA registers
