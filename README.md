@@ -1,10 +1,11 @@
+# FANUC LLM Voice-Controlled Order Fulfillment System
+
 <p align="center">
   <a href="https://example.com/Order_Fulfilment_Voice_demo.mp4">
     <img src="images/OrdFil_Logo.png" alt="FANUC Order Fulfillment logo" width="220" />
   </a>
 </p>
 
-# FANUC LLM Voice-Controlled Order Fulfillment System
 
 A comprehensive voice-controlled robotic order fulfillment solution powered by Large Language Models (LLM). This system enables natural language ordering and automated item management using FANUC collaborative robots integrated with OPC UA communication and AI-driven voice processing.
 
