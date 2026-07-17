@@ -6,7 +6,7 @@ A comprehensive voice-controlled robotic order fulfillment solution powered by L
 
 **Developed by:** FANUC India Pvt Ltd, Bangalore Tech Center  
 **Initiative:** Physical AI Research & Development
-**SOP:** [Download the SOP document](FANUC_Ordfil_SOP.docx)
+**SOP:** [FANUC_OrdFil_SOP.docx](FANUC_Ordfil_SOP.docx)
 
 **Demo Video attached in the Release!**
 
@@ -124,7 +124,7 @@ The FANUC Order Fulfillment System operates through a multi-layered architecture
 
 **Hardware Layer** executes the physical operations: the FANUC collaborative robot reads registers via OPC UA endpoint (port 4880) and performs item retrieval, placement, and organization tasks.
 
-![System Architecture Diagram](images/architecture.png)
+![System Architecture Diagram](images/architecture.jpeg)
 
 **Data Flow:**
 - User commands enter through any interface (terminal, voice, web)
